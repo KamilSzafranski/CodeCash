@@ -18,7 +18,8 @@ const Dropdown = ({ selectedName, handleDate, children }) => {
       if (
         event.target !== wrapper.current &&
         event.target !== wrapper.current.children[0] &&
-        event.target !== wrapper.current.children[1]
+        event.target !== wrapper.current.children[1] &&
+        !grid.current.classList.contains(css.hidden)
       ) {
         grid.current.classList.add(css.hidden);
         arrow.current.classList?.add(css.up);
