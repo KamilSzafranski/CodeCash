@@ -36,6 +36,9 @@ export const logIn = createAsyncThunk(
       return res.data;
     } catch (error) {
       Notify.failure(`${error.message}`);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

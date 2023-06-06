@@ -19,7 +19,7 @@ const Balance = () => {
     <div className={css.container}>
       <div className={css.balanceWrapper}>
         <p className={css.title}>YOUR BALANCE</p>
-        <p className={css.text}> $ {transactionSum}</p>
+        <p className={css.text}> $ {transactionSum.toFixed(2)}</p>
       </div>
     </div>
   );
