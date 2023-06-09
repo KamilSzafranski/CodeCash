@@ -16,8 +16,8 @@ const MobileChart = () => {
   const chartRef = useRef();
   const transactions = useSelector(selectTransactions);
 
-  const getTransactionsCategoryValue = transactions.reduce(
-    (acc, transaction) => {
+  const getTransactionsCategoryValue = useMemo(() => {
+    transactions.reduce((acc, transaction) => {
       const transactionDate = new Date(transaction.date);
       const pickDate = new Date(statisticsDate);
 
@@ -35,9 +35,8 @@ const MobileChart = () => {
       }
 
       return acc;
-    },
-    {}
-  );
+    }, {});
+  }, [transactions, statisticsDate]);
 
   const categoryName = Object.keys(getTransactionsCategoryValue);
   const transactionsCategorySum = Object.values(getTransactionsCategoryValue);

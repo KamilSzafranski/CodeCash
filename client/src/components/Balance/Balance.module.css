@@ -26,3 +26,8 @@
   align-items: center;
   color: var(--text-primary);
 }
+
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+}

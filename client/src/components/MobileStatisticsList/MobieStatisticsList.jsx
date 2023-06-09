@@ -4,6 +4,7 @@ import { CATEGORY_NAME } from "../../redux/constant";
 import css from "./MobileStatisticsList.module.css";
 import { selectStatisticsDate, selectTransactions } from "../../redux/selector";
 import clsx from "clsx";
+import { useMemo } from "react";
 
 const MobieStatisticsList = () => {
   const categories = Object.values(CATEGORY_NAME);
@@ -11,8 +12,8 @@ const MobieStatisticsList = () => {
   const transactions = useSelector(selectTransactions);
   const statisticsDate = useSelector(selectStatisticsDate);
 
-  const getTransactionsCategoryValue = transactions.reduce(
-    (acc, transaction) => {
+  const getTransactionsCategoryValue = useMemo(() => {
+    transactions.reduce((acc, transaction) => {
       categories.forEach((elements) => (acc[elements] = acc[elements] ?? 0));
       const transactionDate = new Date(transaction.date);
       const pickDate = new Date(statisticsDate);
@@ -31,29 +32,30 @@ const MobieStatisticsList = () => {
       }
 
       return acc;
-    },
-    {}
-  );
+    }, {});
+  }, [statisticsDate, transactions]);
 
   const transactionsValue = Object.values(getTransactionsCategoryValue);
 
-  const expenseAndIncomeSum = transactions.reduce((acc, ele) => {
-    const transactionDate = new Date(ele.date);
-    const pickDate = new Date(statisticsDate);
+  const expenseAndIncomeSum = useMemo(() => {
+    transactions.reduce((acc, ele) => {
+      const transactionDate = new Date(ele.date);
+      const pickDate = new Date(statisticsDate);
 
-    const yearCondition =
-      transactionDate.getFullYear() === pickDate.getFullYear();
-    const monthCondition = transactionDate.getMonth() === pickDate.getMonth();
+      const yearCondition =
+        transactionDate.getFullYear() === pickDate.getFullYear();
+      const monthCondition = transactionDate.getMonth() === pickDate.getMonth();
 
-    if (!ele.type && yearCondition && monthCondition) {
-      acc.expense = (acc.expense || 0) - ele.amount;
-    }
+      if (!ele.type && yearCondition && monthCondition) {
+        acc.expense = (acc.expense || 0) - ele.amount;
+      }
 
-    if (ele.type && yearCondition && monthCondition) {
-      acc.income = (acc.income || 0) + ele.amount;
-    }
-    return acc;
-  }, {});
+      if (ele.type && yearCondition && monthCondition) {
+        acc.income = (acc.income || 0) + ele.amount;
+      }
+      return acc;
+    }, {});
+  }, [statisticsDate, transactions]);
 
   return (
     <ul className={css.grid}>

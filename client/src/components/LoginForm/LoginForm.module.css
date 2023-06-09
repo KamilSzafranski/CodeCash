@@ -27,7 +27,7 @@
   border-radius: 20px;
   border: none;
   padding: 13px 61px;
-  margin-top: 53px;
+  margin-top: 5px;
   cursor: pointer;
   @media screen and (min-width: 768px) {
     margin-left: 54px;
@@ -37,4 +37,17 @@
 
 .registerButton:hover {
   transform: scale(1.05);
+}
+
+.demo {
+  margin-top: 50px;
+  color: #e0e0e0;
+  font-family: "CirceRegular";
+  text-align: center;
+  cursor: pointer;
+  transition: color 250ms ease-in;
+}
+
+.demo:hover {
+  color: var(--btn-primary);
 }
