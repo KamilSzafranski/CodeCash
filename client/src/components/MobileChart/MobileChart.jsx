@@ -17,7 +17,7 @@ const MobileChart = () => {
   const transactions = useSelector(selectTransactions);
 
   const getTransactionsCategoryValue = useMemo(() => {
-    transactions.reduce((acc, transaction) => {
+    return transactions.reduce((acc, transaction) => {
       const transactionDate = new Date(transaction.date);
       const pickDate = new Date(statisticsDate);
 

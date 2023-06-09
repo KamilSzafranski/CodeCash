@@ -13,7 +13,7 @@ const MobieStatisticsList = () => {
   const statisticsDate = useSelector(selectStatisticsDate);
 
   const getTransactionsCategoryValue = useMemo(() => {
-    transactions.reduce((acc, transaction) => {
+    return transactions.reduce((acc, transaction) => {
       categories.forEach((elements) => (acc[elements] = acc[elements] ?? 0));
       const transactionDate = new Date(transaction.date);
       const pickDate = new Date(statisticsDate);
@@ -38,7 +38,7 @@ const MobieStatisticsList = () => {
   const transactionsValue = Object.values(getTransactionsCategoryValue);
 
   const expenseAndIncomeSum = useMemo(() => {
-    transactions.reduce((acc, ele) => {
+    return transactions.reduce((acc, ele) => {
       const transactionDate = new Date(ele.date);
       const pickDate = new Date(statisticsDate);
 
