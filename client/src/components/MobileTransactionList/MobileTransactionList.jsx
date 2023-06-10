@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectTransactions } from "../../redux/selector";
+import { selectIsLoading, selectTransactions } from "../../redux/selector";
 import css from "./MobileTransactionList.module.css";
 import clsx from "clsx";
 import sprite from "../../assets/icon/sprite.svg";
@@ -8,8 +8,11 @@ import {
   changeIsModalEditTrasactionOpen,
   setTransactionToEdit,
 } from "../../redux/global/slice";
+import Loader from "../Loader/Loader";
+import { useMemo } from "react";
 
 const MobileTransactionList = () => {
+  const isLoading = useSelector(selectIsLoading);
   const transactions = useSelector(selectTransactions);
   const dispatch = useDispatch();
 
@@ -25,60 +28,65 @@ const MobileTransactionList = () => {
 
   return (
     <div className={clsx(css.container, css.transactionContainer)}>
-      {transactions.map((transaction, index) => (
-        <ul
-          key={index}
-          className={clsx(css.transactionGrid, {
-            [css.income]: transaction.type,
-            [css.expense]: !transaction.type,
-          })}
-        >
-          {Object.keys(transaction).map((keyObj, index) => {
-            const condition =
-              keyObj === "__v" ||
-              keyObj === "month" ||
-              keyObj === "year" ||
-              keyObj === "_id" ||
-              keyObj === "owner";
-            if (condition) return;
-            return (
-              <li className={css.transactionItem} key={index}>
-                <p className={css.title}>{keyObj}</p>
-                <p
-                  className={clsx(css.text, {
-                    [css.plus]: transaction.type && keyObj === "amount",
-                    [css.minus]: !transaction.type && keyObj === "amount",
-                  })}
+      {isLoading && <Loader variant={"wallet"} scale={0.5} />}
+      {!isLoading && (
+        <>
+          {transactions.map((transaction, index) => (
+            <ul
+              key={index}
+              className={clsx(css.transactionGrid, {
+                [css.income]: transaction.type,
+                [css.expense]: !transaction.type,
+              })}
+            >
+              {Object.keys(transaction).map((keyObj, index) => {
+                const condition =
+                  keyObj === "__v" ||
+                  keyObj === "month" ||
+                  keyObj === "year" ||
+                  keyObj === "_id" ||
+                  keyObj === "owner";
+                if (condition) return;
+                return (
+                  <li className={css.transactionItem} key={index}>
+                    <p className={css.title}>{keyObj}</p>
+                    <p
+                      className={clsx(css.text, {
+                        [css.plus]: transaction.type && keyObj === "amount",
+                        [css.minus]: !transaction.type && keyObj === "amount",
+                      })}
+                    >
+                      {keyObj !== "date" && transaction[keyObj]}
+                      {keyObj === "date" &&
+                        new Date(transaction[keyObj]).toLocaleDateString()}
+                      {keyObj === "type" && transaction[keyObj] && "+"}
+                      {keyObj === "type" && !transaction[keyObj] && "+"}
+                    </p>
+                  </li>
+                );
+              })}
+              <li className={css.transactionItem}>
+                <button
+                  className={css.btn}
+                  data-id={transaction._id}
+                  onClick={handleDelete}
                 >
-                  {keyObj !== "date" && transaction[keyObj]}
-                  {keyObj === "date" &&
-                    new Date(transaction[keyObj]).toLocaleDateString()}
-                  {keyObj === "type" && transaction[keyObj] && "+"}
-                  {keyObj === "type" && !transaction[keyObj] && "+"}
-                </p>
+                  Delete
+                </button>
+                <div
+                  className={css.wrapper}
+                  onClick={() => handleOpenEditModal(transaction)}
+                >
+                  <svg className={css.icon}>
+                    <use xlinkHref={`${sprite}#pen`}></use>
+                  </svg>
+                  <p className={css.text}>Edit</p>
+                </div>
               </li>
-            );
-          })}
-          <li className={css.transactionItem}>
-            <button
-              className={css.btn}
-              data-id={transaction._id}
-              onClick={handleDelete}
-            >
-              Delete
-            </button>
-            <div
-              className={css.wrapper}
-              onClick={() => handleOpenEditModal(transaction)}
-            >
-              <svg className={css.icon}>
-                <use xlinkHref={`${sprite}#pen`}></use>
-              </svg>
-              <p className={css.text}>Edit</p>
-            </div>
-          </li>
-        </ul>
-      ))}
+            </ul>
+          ))}
+        </>
+      )}
     </div>
   );
 };

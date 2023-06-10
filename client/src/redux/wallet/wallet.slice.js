@@ -6,7 +6,6 @@ import {
   deleteTransaction,
   updateTransaction,
 } from "./wallet.thunk.js";
-// import { tempTransactionDB } from '../../tempDB/tempDB.js';
 
 const walletInitialState = {
   transactions: [],
@@ -55,7 +54,6 @@ const walletSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(fetchTransactions.pending, (state, action) => {
-        state.transactions = [];
         state.isLoading = true;
       })
       .addCase(fetchTransactions.fulfilled, (state, action) => {
@@ -67,6 +65,11 @@ const walletSlice = createSlice({
       })
       .addCase(deleteTransaction.fulfilled, (state, action) => {
         state.isLoading = false;
+        const index = state.transactions.findIndex(
+          (element) => element._id === action.payload
+        );
+
+        state.transactions.splice(index, 1);
       })
       .addCase(updateTransaction.fulfilled, (state, action) => {
         state.isLoading = false;

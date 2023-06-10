@@ -5,9 +5,13 @@ import { selectIsModalLogoutOpen } from "../../redux/global/selectors.js";
 import MobileExchange from "../../components/MobileExchange/MobileExchange";
 import { ModalLogout } from "../../components/ModalLogout/ModalLogout.jsx";
 import { Header } from "../../components/Header/Header";
+import { selectIsLoading } from "../../redux/selector.js";
 
 const ExchangePage = () => {
   const isModalLogoutOpen = useSelector(selectIsModalLogoutOpen);
+ const authLoading = useSelector(selectIsLoading)
+ 
+ 
   return (
     <>
       <Media
