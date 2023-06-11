@@ -34,3 +34,27 @@
   font-size: 18px;
   transform: translate(-50%, -50%);
 }
+
+@keyframes circleAnimation {
+  0% {
+    stroke-dashoffset: 280;
+  }
+
+  100% {
+    stroke-dashoffset: 580;
+  }
+}
+
+circle {
+  animation: 1.4s ease-in-out infinite both circle-animation;
+  display: block;
+  fill: transparent;
+  stroke: #2f3d4c;
+  stroke-linecap: round;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 280;
+  stroke-width: 10px;
+  transform-origin: 50% 50%;
+  transform: rotate(-90deg);
+  animation: 1s ease-in-out both circleAnimation;
+}

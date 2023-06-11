@@ -17,25 +17,17 @@ export const MobileHomeDashboard = () => {
       <section className={css.navSection}>
         <MobileNavigation />
       </section>
-      {!transactions?.length && (
-        <>
-          <section className={css.balanceSection}>
-            <Balance />
-          </section>
-          <Empty />
-        </>
-      )}
-      {transactions.length && (
-        <>
-          <section className={css.balanceSection}>
-            <Balance />
-          </section>
 
-          <section>
-            <MobileTransactionList />
-          </section>
-        </>
-      )}
+      <>
+        <section className={css.balanceSection}>
+          <Balance />
+        </section>
+
+        <section>
+          <MobileTransactionList />
+        </section>
+      </>
+
       <>
         <ButtonAddTransaction />
       </>

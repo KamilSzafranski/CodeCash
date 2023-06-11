@@ -10,6 +10,7 @@ import {
 } from "../../redux/global/slice";
 import Loader from "../Loader/Loader";
 import { useMemo } from "react";
+import Empty from "../Empty/Empty";
 
 const MobileTransactionList = () => {
   const isLoading = useSelector(selectIsLoading);
@@ -28,7 +29,12 @@ const MobileTransactionList = () => {
 
   return (
     <div className={clsx(css.container, css.transactionContainer)}>
-      {isLoading && <Loader variant={"wallet"} scale={0.5} />}
+      {isLoading && (
+        <div className={css.loaderWrapper}>
+          <Loader variant={"wallet"} scale={0.5} />
+        </div>
+      )}
+      {transactions.length === 0 && !isLoading && <Empty />}
       {!isLoading && (
         <>
           {transactions.map((transaction, index) => (

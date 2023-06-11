@@ -107,3 +107,7 @@
   transform: scale(1.05);
   color: var(--text-income);
 }
+
+css.loaderWrapper {
+  margin: 0 auto;
+}

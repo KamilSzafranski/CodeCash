@@ -11,3 +11,9 @@
   margin: 0 auto;
   max-width: 420px;
 }
+
+.loaderWrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}

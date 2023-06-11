@@ -97,15 +97,51 @@ const MobileChart = () => {
     },
   };
 
+  const plugin = {
+    id: "emptyDoughnut",
+    afterDraw(chart, args, options) {
+      const { datasets } = chart.data;
+      const { color, width, radiusDecrease } = options;
+      let hasData = false;
+
+      for (let i = 0; i < datasets.length; i += 1) {
+        const dataset = datasets[i];
+        hasData |= dataset.data.length > 0;
+      }
+
+      if (!hasData) {
+        const {
+          chartArea: { left, top, right, bottom },
+          ctx,
+        } = chart;
+        const centerX = (left + right) / 2;
+        const centerY = (top + bottom) / 2;
+        const r = Math.min(right - left, bottom - top) / 2;
+
+        ctx.beginPath();
+        ctx.lineWidth = width || 2;
+        ctx.strokeStyle = color || "rgba(255, 128, 0, 0.5)";
+        ctx.arc(centerX, centerY, r - radiusDecrease || 0, 0, 2 * Math.PI);
+        ctx.stroke();
+      }
+    },
+  };
+
   return (
     <>
       <div className={css.container}>
-        {transactionsCategorySum?.length === 0 && <Empty />}
-        {transactionsCategorySum?.length !== 0 && (
-          <>
-            <h3 className={css.title}>Statistics</h3>
-            <div className={css.chartWrapper}>
-              <p className={css.text}>{`PLN  ${sumOfAllTransactions}`}</p>
+        <>
+          <h3 className={css.title}>Statistics</h3>
+          <div className={css.chartWrapper}>
+            <p className={css.text}>{`PLN  ${sumOfAllTransactions}`}</p>
+            {transactionsCategorySum?.length === 0 && (
+              <>
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="50" r="40" />
+                </svg>
+              </>
+            )}
+            {transactionsCategorySum?.length !== 0 && (
               <Doughnut
                 ref={chartRef}
                 data={data}
@@ -113,9 +149,9 @@ const MobileChart = () => {
                 redraw="true"
                 updateMode="resize"
               />
-            </div>{" "}
-          </>
-        )}
+            )}
+          </div>{" "}
+        </>
       </div>
     </>
   );
