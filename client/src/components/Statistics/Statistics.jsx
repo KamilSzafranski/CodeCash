@@ -24,15 +24,17 @@ export const Statistics = () => {
 
   const transactionsYear = [
     ...new Set(
-      useMemo(
-        () =>
-          transactions.map((elements) => {
+      useMemo(() => {
+        if (transactions.length !== 0) {
+          return transactions.map((elements) => {
             const transactionDate = new Date(elements.date);
 
             return transactionDate.getFullYear();
-          }),
-        [transactions, statisticsDate]
-      )
+          });
+        }
+
+        return [new Date().getFullYear()];
+      }, [transactions, statisticsDate])
     ),
   ];
 
@@ -72,16 +74,19 @@ export const Statistics = () => {
 
               <div className={css.listWrapper}>
                 <div className={css.dropdownWrapper}>
-                  <Dropdown selectedName={month} handleDate={handleMonth}>
-                    <DropdownList data={Object.values(MONTH_NAME)} />
-                  </Dropdown>
-
-                  <Dropdown
-                    selectedName={date.getFullYear()}
-                    handleDate={handleYear}
-                  >
-                    <DropdownList data={transactionsYear} />
-                  </Dropdown>
+                  <>
+                    <Dropdown selectedName={month} handleDate={handleMonth}>
+                      <DropdownList data={Object.values(MONTH_NAME)} />
+                    </Dropdown>
+                  </>
+                  <>
+                    <Dropdown
+                      selectedName={date.getFullYear()}
+                      handleDate={handleYear}
+                    >
+                      <DropdownList data={transactionsYear} />
+                    </Dropdown>
+                  </>
                 </div>
                 <MobieStatisticsList />
               </div>

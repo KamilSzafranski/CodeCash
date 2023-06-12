@@ -9,20 +9,24 @@ const Dropdown = ({ selectedName, handleDate, children }) => {
   const wrapper = useRef();
 
   const handleHidden = (event) => {
+    event.preventDefault();
+    console.log("e");
+    if (grid.current.children.length === 0) return;
+
     grid.current.classList.toggle(css.hidden);
     arrow.current.classList.toggle(css.up);
   };
+
   useEffect(() => {
     const handleRemoveHidden = (event) => {
       if (!grid.current || !arrow.current) return;
       if (
         event.target !== wrapper.current &&
         event.target !== wrapper.current.children[0] &&
-        event.target !== wrapper.current.children[1] &&
-        !grid.current.classList.contains(css.hidden)
+        event.target !== wrapper.current.children[1]
       ) {
         grid.current.classList.add(css.hidden);
-        arrow.current.classList?.add(css.up);
+        arrow.current.classList.add(css.up);
       }
     };
 
@@ -35,7 +39,7 @@ const Dropdown = ({ selectedName, handleDate, children }) => {
     <>
       <div className={css.wrapper} ref={wrapper} onClick={handleHidden}>
         <span>{selectedName}</span>
-        <svg className={css.icon} ref={arrow}>
+        <svg className={clsx(css.icon, css.up)} ref={arrow}>
           <use xlinkHref={`${sprite}#${"arrow"}`}></use>
         </svg>
         <ul

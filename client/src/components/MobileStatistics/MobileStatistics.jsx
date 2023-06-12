@@ -22,18 +22,19 @@ const MobileStatistics = () => {
 
   const transactionsYear = [
     ...new Set(
-      useMemo(
-        () =>
-          transactions.map((elements) => {
+      useMemo(() => {
+        if (transactions.length !== 0) {
+          return transactions.map((elements) => {
             const transactionDate = new Date(elements.date);
 
             return transactionDate.getFullYear();
-          }),
-        [transactions, statisticsDate]
-      )
+          });
+        }
+
+        return [new Date().getFullYear()];
+      }, [transactions, statisticsDate])
     ),
   ];
-
   const handleYear = (event) => {
     event.preventDefault();
 
@@ -59,16 +60,19 @@ const MobileStatistics = () => {
           </section>
           <section>
             <div className={css.container}>
-              <Dropdown selectedName={month} handleDate={handleMonth}>
-                <DropdownList data={Object.values(MONTH_NAME)} />
-              </Dropdown>
-
-              <Dropdown
-                selectedName={date.getFullYear()}
-                handleDate={handleYear}
-              >
-                <DropdownList data={transactionsYear} />
-              </Dropdown>
+              <>
+                <Dropdown selectedName={month} handleDate={handleMonth}>
+                  <DropdownList data={Object.values(MONTH_NAME)} />
+                </Dropdown>
+              </>
+              <>
+                <Dropdown
+                  selectedName={date.getFullYear()}
+                  handleDate={handleYear}
+                >
+                  <DropdownList data={transactionsYear} />
+                </Dropdown>
+              </>
             </div>
           </section>
           <section>

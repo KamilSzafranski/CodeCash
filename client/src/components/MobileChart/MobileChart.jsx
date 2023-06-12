@@ -150,7 +150,7 @@ const MobileChart = () => {
                 updateMode="resize"
               />
             )}
-          </div>{" "}
+          </div>
         </>
       </div>
     </>

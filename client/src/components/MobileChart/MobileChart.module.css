@@ -37,11 +37,11 @@
 
 @keyframes circleAnimation {
   0% {
-    stroke-dashoffset: 280;
+    stroke-dashoffset: 283;
   }
 
   100% {
-    stroke-dashoffset: 580;
+    stroke-dashoffset: 0;
   }
 }
 
@@ -50,11 +50,11 @@ circle {
   display: block;
   fill: transparent;
   stroke: #2f3d4c;
-  stroke-linecap: round;
+
   stroke-dasharray: 283;
-  stroke-dashoffset: 280;
+  stroke-dashoffset: 283;
   stroke-width: 10px;
   transform-origin: 50% 50%;
   transform: rotate(-90deg);
-  animation: 1s ease-in-out both circleAnimation;
+  animation: 1s ease-out forwards circleAnimation;
 }
